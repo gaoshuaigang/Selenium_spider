@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 dir_path = "/Users/gaosg/Selenium_spider/result/PM/"
 chrome_option = Options()
 chrome_option.add_experimental_option('debuggerAddress', '127.0.0.1:9222')
-driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver', options=chrome_option)
+driver = webdriver.Chrome(executable_path='/Users/gaosg/chromedriver', options=chrome_option)
 
 for URL in open('/Users/gaosg/Selenium_spider/value/PMspider'):
     driver.get(URL)
