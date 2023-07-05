@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>漫画堂</title>
+  <meta charset="UTF-8">
+  <style>
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    .left {
+      flex: 1;
+      padding: 20px;
+      background-color: #f0f0f0;
+      overflow-y: scroll;
+    }
+
+    .right {
+      flex: 2;
+      padding: 20px;
+    }
+    .content {
+      flex: 1;
+      padding-left: 20px;
+      height: 88vh;
+      width: 80vw;
+    }
+    #contentFrame {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .pagination {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .pagination button {
+      margin: 0 5px;
+      padding: 5px 10px;
+    }
+  </style>
+
+</head>
+<body onload="loadExcelData()">
+  <div class="container">
+    <div class="left">
+      <ul id="tree"></ul>
+    </div>
+    <div class="right">
+      <div class="content">
+        <iframe id="contentFrame"></iframe>
+      </div>
+      <div class="pagination">
+        <button id="prevButton" onclick="prevImage()">上一页</button>
+        <button id="nextButton" onclick="nextImage()">下一页</button>
+      </div>
+    </div>
+  </div>
+  <script>
+        // 获取左侧树状展示的数据
+        fetch('/excel-data')
+            .then(response => response.json())
+            .then(data => {
+                const excelColumn = document.getElementById('tree');
+                data.forEach((row, index) => {
+                    const listItem = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = row[1];
+                    link.textContent = row[0];
+                    link.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        displayContent(event, row[1], index);
+                    });
+                    listItem.appendChild(link);
+                    excelColumn.appendChild(listItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+        // 展示链接内容
+        function displayContent(event, contentUrl, index) {
+            event.preventDefault();
+            const contentFrame = document.getElementById('contentFrame');
+            contentFrame.src = contentUrl;
+            currentIndex = index;
+            window.location.replace("#contentFrame");
+        }
+        let currentIndex = 0; // 当前索引
+        function prevImage() {
+          if (currentIndex > 0) {
+            currentIndex--;
+            openContent(currentIndex);
+          }
+        }
+
+        function nextImage() {
+          const links = document.querySelectorAll('#tree a');
+          if (currentIndex < links.length - 1) {
+            currentIndex++;
+            openContent(currentIndex);
+          }
+        }
+
+        function openContent(index) {
+          const links = document.querySelectorAll('#tree a');
+          const contentFrame = document.getElementById('contentFrame');
+          contentFrame.src = links[index].getAttribute('href');
+        }
+    </script>
+</body>
+</html>
