@@ -20,7 +20,7 @@ class download():
         driver = webdriver.Chrome(executable_path='/Users/gaosg/chromedriver', options=chrome_option)
 
         wb = openpyxl.load_workbook('People/output_1.xlsx')
-        sheet = wb['401-450']
+        sheet = wb['451-500']
         num = []
         for i, row in enumerate(sheet.iter_rows(values_only=True), start=1):
             if i == 1:  # 跳过第一行
