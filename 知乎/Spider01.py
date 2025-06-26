@@ -17,6 +17,7 @@ class download():
         driver = webdriver.Chrome(executable_path='/Users/gaosg/chromedriver', options=chrome_option)
 
         # 打开网址
+        # driver.get('https://www.zhihu.com/pub')
         driver.get('https://www.zhihu.com/pub/book/120044210')
         driver.implicitly_wait(5)
         shuming = driver.find_element(By.XPATH,
