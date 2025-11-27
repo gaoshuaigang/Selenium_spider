@@ -9,6 +9,7 @@ import openpyxl
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 
 
@@ -17,10 +18,13 @@ class download():
         # 初始化浏览器，接管代理浏览器
         chrome_option = Options()
         chrome_option.add_experimental_option('debuggerAddress', '127.0.0.1:9222')
-        driver = webdriver.Chrome(executable_path='/Users/gaosg/chromedriver', options=chrome_option)
+
+        # 使用Service对象指定驱动路径
+        service = Service('/Users/gaosg/chromedriver/chromedriver')
+        driver = webdriver.Chrome(service=service, options=chrome_option)
 
         # 打开网址
-        driver.get('https://www.zanghaihua.org/book/40438/')
+        driver.get('https://www.zhhwx.com/list1/')
         driver.implicitly_wait(5)
         # 获取章节名称和地址
         content = driver.find_element(By.XPATH, value='//*[@id="section-list"]').get_attribute('outerHTML')
